@@ -25,8 +25,8 @@ def setup(mode):
     # Values should be between 0.0 and 1.0
     p1_prob_a = 0.2
     p1_prob_b = 0.8
-    p2_prob_a = 0.6
-    p2_prob_b = 0.6
+    p2_prob_a = 0.2
+    p2_prob_b = 0.8
 
     # Number of iterations for each simulation
     num_turns = 1000
@@ -67,7 +67,7 @@ def main():
     plt.figure(1)
     plt.title('Probability of choosing A as a function\nPlayer 1 (0.6, 0.6)')
     plt.xlabel('Fractional income of A')
-    plt.ylabel('Probability of choice A')
+    plt.ylabel('Ratio for A choices')
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     t1_patch = mpatches.Patch(color='red', label='Independent')
@@ -79,7 +79,7 @@ def main():
     plt.figure(2)
     plt.title('Probability of choosing A as a function\nPlayer 1 (0.2, 0.8)')
     plt.xlabel('Fractional income of A')
-    plt.ylabel('Probability of choice A')
+    plt.ylabel('Ratio for A choices')
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     t1_patch = mpatches.Patch(color='red', label='Independent')
@@ -89,7 +89,7 @@ def main():
 
     # Set up graph 2a
     plt.figure(3)
-    plt.title('Change in Income over Time for Player 2, A' +
+    plt.title('Change in Income over time for Player 2, A' +
               '\nPlayer 1 (' + str(player1.prob_a) + ', ' + str(player1.prob_b) + '); ' +
               'Player 2 (' + str(player2.prob_a) + ', ' + str(player2.prob_b) + ')')
     plt.xlabel('Time')
@@ -99,7 +99,8 @@ def main():
     t1_patch = mpatches.Patch(color='red', label='Independent')
     t2_patch = mpatches.Patch(color='blue', label=str(player2.weight) + ' Weighting')
     t3_patch = mpatches.Patch(color='green', label='Joint Decision History')
-    true_patch = mpatches.Patch(color='black', label='True P(A): ' + str(player2.prob_a))
+    true_patch = mpatches.Patch(color='black', label='P(A)/[P(A) + P(B)]: '
+                                                     + str(player2.prob_a / (player2.prob_a + player2.prob_b)))
     plt.legend(handles=[t1_patch, t2_patch, t3_patch, true_patch])
 
     # Set up graph 2b
@@ -114,7 +115,8 @@ def main():
     t1_patch = mpatches.Patch(color='red', label='Independent')
     t2_patch = mpatches.Patch(color='blue', label=str(player2.weight) + ' Weighting')
     t3_patch = mpatches.Patch(color='green', label='Joint')
-    true_patch = mpatches.Patch(color='black', label='True P(B): ' + str(player2.prob_b))
+    true_patch = mpatches.Patch(color='black', label='P(B)/[P(A) + P(B)]: ' +
+                                                     str(player2.prob_b / (player2.prob_a + player2.prob_b)))
     plt.legend(handles=[t1_patch, t2_patch, t3_patch, true_patch])
 
     # Set up graph 3
@@ -127,7 +129,9 @@ def main():
     t1_patch = mpatches.Patch(color='red', label='Independent')
     t2_patch = mpatches.Patch(color='blue', label=str(player2.weight) + ' Weighting')
     t3_patch = mpatches.Patch(color='green', label='Joint')
-    plt.legend(handles=[t1_patch, t2_patch, t3_patch])
+    slope_patch = mpatches.Patch(color='black', label='y = x')
+    plt.legend(handles=[t1_patch, t2_patch, t3_patch, slope_patch])
+    plt.plot(range(0, num_turns), range(0, num_turns), color='black', linewidth=3)
 
     ''' FEED DATA INTO GRAPHS '''
 
