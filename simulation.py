@@ -6,17 +6,17 @@ sys.stdout.flush()  # Force a flush to stdout
 
 
 # Simulates player choices
-def run_simulation(p1, p2, num_times, debug):
+def run_simulation(p1, p2, num_times, debug, points_g2_a, points_g2_b, isgraph):
     # For loop to run through simulation
     for iteration in range(0, num_times):
         # Player 1 starts
         p1_matching_a, p1_matching_b = p1.calc_matching()       # Get matching ratios
         # These are normalized to 1
 
-        if debug:                                               # Print entire log
+        if debug and isgraph == 0:                                               # Print entire log
             print('Income for P1\'s A: ' + str(p1_matching_a))
             print('Income for P1\'s B: ' + str(p1_matching_b))
-        elif iteration == num_times - 1:                        # Only print at last iteration
+        elif iteration == num_times - 1 and isgraph == 0:                        # Only print at last iteration
             print('\nIncome for P1\'s A: ' + str(p1_matching_a))
             print('Income for P1\'s B: ' + str(p1_matching_b) + '\n')
 
@@ -32,11 +32,14 @@ def run_simulation(p1, p2, num_times, debug):
 
         # Player 2 starts
         p2_matching_a, p2_matching_b = p2.calc_matching()
+        # Record points into graph 2
+        points_g2_a.append((p2_matching_a, iteration))
+        points_g2_b.append((p2_matching_b, iteration))
 
-        if debug:
+        if debug and isgraph == 0:
             print('Income for P2\'s A: ' + str(p2_matching_a))
             print('Income for P2\'s B: ' + str(p2_matching_b))
-        elif iteration == num_times - 1:
+        elif iteration == num_times - 1 and isgraph == 0:
             print('Income for P2\'s A: ' + str(p2_matching_a))
             print('Income for P2\'s B: ' + str(p2_matching_b) + '\n')
 

@@ -32,15 +32,21 @@ class Player:
             a_ratio = (self.score_a + 1) / (self.times_picked_a + 2)
             b_ratio = (self.score_b + 1) / (self.times_picked_b + 2)
         elif self.mode == 1:    # Factors partner's actions based on a weight
+            ''' OTHER WEIGHTING
+            a_ratio = (self.score_a + self.other_player.score_a * self.weight + 2) / \
+                      (self.times_picked_a + self.other_player.times_picked_a * self.weight + 4)
+            b_ratio = (self.score_b + self.other_player.score_b * self.weight + 2) / \
+                      (self.times_picked_b + self.other_player.times_picked_b * self.weight + 4)
+            '''
             a_ratio = (self.score_a * (1 - self.weight) + self.other_player.score_a * self.weight + 2) / \
                       (self.times_picked_a * (1 - self.weight) + self.other_player.times_picked_a * self.weight + 4)
             b_ratio = (self.score_b * (1 - self.weight) + self.other_player.score_b * self.weight + 2) / \
                       (self.times_picked_b * (1 - self.weight) + self.other_player.times_picked_b * self.weight + 4)
-        elif self.mode == 2:    # Factors partner's action equally
-            a_ratio = (self.score_a * 0.5 + self.other_player.score_a * 0.5 + 2) / \
-                      (self.times_picked_a * 0.5 + self.other_player.times_picked_a * 0.5 + 4)
-            b_ratio = (self.score_b * 0.5 + self.other_player.score_b * 0.5 + 2) / \
-                      (self.times_picked_b * 0.5 + self.other_player.times_picked_b * 0.5 + 4)
+        elif self.mode == 2:    # Factors partner's action jointly
+            a_ratio = (self.score_a + self.other_player.score_a + 2) / \
+                      (self.times_picked_a + self.other_player.times_picked_a + 4)
+            b_ratio = (self.score_b + self.other_player.score_b + 2) / \
+                      (self.times_picked_b + self.other_player.times_picked_b + 4)
 
         matching_a = a_ratio / (a_ratio + b_ratio)
         matching_b = b_ratio / (a_ratio + b_ratio)
